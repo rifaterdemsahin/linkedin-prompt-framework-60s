@@ -2,7 +2,11 @@
 
 Production pack for a 60-second LinkedIn talking-head: green-screen A-roll, teleprompter, preproduction plan, sanity check, and a shoot → edit → upload checklist.
 
-**Live:** https://rifaterdemsahin.github.io/linkedin-prompt-framework-60s/
+## GitHub Pages
+
+**https://rifaterdemsahin.github.io/linkedin-prompt-framework-60s/**
+
+Repo: https://github.com/rifaterdemsahin/linkedin-prompt-framework-60s
 
 ## Use on set
 
