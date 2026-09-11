@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>LinkedIn 60s · Prompt Framework · Prompter + Production Pack</title>
+  <meta name="description" content="Teleprompter, preproduction plan, green-screen LinkedIn background, sanity check, and shoot-edit-upload checklist for a 60-second talking-head." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>" />
+  <style>
+    :root {
+      --bg: #070b14;
+      --panel: #101827;
+      --panel-2: #162033;
+      --line: #243044;
+      --text: #eef4ff;
+      --muted: #93a4bf;
+      --blue: #0a66c2;
+      --blue-2: #4aa3ff;
+      --cyan: #5eead4;
+      --amber: #fbbf24;
+      --rose: #fb7185;
+      --green: #4ade80;
+      --gs: #00b140;
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --radius: 16px;
+      --font: "Segoe UI", ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background:
+        radial-gradient(1200px 500px at 80% -10%, rgba(10,102,194,.22), transparent 50%),
+        radial-gradient(900px 400px at -10% 20%, rgba(94,234,212,.08), transparent 45%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    a { color: var(--blue-2); }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px 80px; }
+    header.hero {
+      padding: 28px 0 10px;
+      display: grid;
+      gap: 18px;
+    }
+    .kicker {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--cyan);
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid var(--line); background: var(--panel);
+      padding: 4px 10px; border-radius: 999px; color: var(--muted);
+      letter-spacing: 0; text-transform: none; font-size: 12px;
+    }
+    h1 { font-size: clamp(28px, 4vw, 44px); line-height: 1.12; margin: 8px 0 6px; }
+    .lede { color: var(--muted); max-width: 720px; font-size: 17px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+    .btn {
+      appearance: none; border: 0; cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 12px 16px; border-radius: 12px; font-weight: 700; font-size: 15px; color: #041018;
+      background: linear-gradient(180deg, #7ee7d4, var(--cyan));
+    }
+    .btn.secondary { background: var(--panel-2); color: var(--text); border: 1px solid var(--line); }
+    .btn.linkedin { background: var(--blue); color: #fff; }
+    .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+    nav.top {
+      position: sticky; top: 0; z-index: 40;
+      backdrop-filter: blur(16px);
+      background: rgba(7,11,20,.78);
+      border-bottom: 1px solid var(--line);
+    }
+    nav.top .inner {
+      max-width: 1180px; margin: 0 auto; padding: 10px 20px;
+      display: flex; gap: 8px; overflow: auto;
+    }
+    nav.top a {
+      color: var(--muted); text-decoration: none; white-space: nowrap;
+      padding: 8px 12px; border-radius: 999px; font-size: 13px; font-weight: 600;
+    }
+    nav.top a:hover, nav.top a.active { color: var(--text); background: var(--panel-2); }
+    section { padding: 36px 0 8px; }
+    section h2 { font-size: 26px; margin: 0 0 8px; }
+    .sub { color: var(--muted); margin: 0 0 18px; }
+    .grid { display: grid; gap: 14px; }
+    .grid.two { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .grid.four { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .card {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 18px; box-shadow: var(--shadow);
+    }
+    .card h3 { margin: 0 0 8px; font-size: 16px; }
+    .card p, .card li { color: var(--muted); }
+    .card ol, .card ul { margin: 8px 0 0; padding-left: 18px; }
+    .stat { font-family: var(--mono); color: var(--cyan); font-size: 13px; }
+    .beat {
+      display: grid; grid-template-columns: 110px 1fr; gap: 14px;
+      border-left: 3px solid var(--blue-2); padding: 4px 0 4px 14px; margin: 16px 0;
+    }
+    .beat .tc { font-family: var(--mono); color: var(--amber); font-size: 13px; }
+    .spoken {
+      font-size: 18px; line-height: 1.45; color: var(--text);
+    }
+    .tag { display:inline-block; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color: var(--cyan); margin-bottom: 4px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-weight: 600; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+    .pass { color: var(--green); font-weight: 700; }
+    .warn { color: var(--amber); font-weight: 700; }
+    .fail { color: var(--rose); font-weight: 700; }
+    .check { display:flex; gap:10px; align-items:flex-start; padding: 8px 0; border-bottom: 1px solid var(--line); }
+    .check:last-child { border-bottom: 0; }
+    .check input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--cyan); }
+    .check label { color: var(--text); cursor: pointer; }
+    .check small { display:block; color: var(--muted); }
+    .gs-swatch {
+      height: 88px; border-radius: 12px;
+      background: repeating-linear-gradient(45deg, #00a33a 0 12px, #00b140 12px 24px);
+      border: 1px solid #148a3d; display:flex; align-items:center; justify-content:center;
+      font-weight: 800; letter-spacing: .12em; color: #04210c;
+    }
+    .plate {
+      width: 100%; border-radius: 12px; display:block; border: 1px solid var(--line);
+    }
+    .frame {
+      position: relative; overflow: hidden; border-radius: 14px; border: 1px solid var(--line);
+      aspect-ratio: 4 / 5; background: #0b1220;
+    }
+    .frame img { width: 100%; height: 100%; object-fit: cover; display:block; }
+    .frame .person {
+      position: absolute; left: 50%; bottom: 6%; transform: translateX(-50%);
+      width: 58%; height: 72%;
+      background: radial-gradient(ellipse at 50% 30%, rgba(255,255,255,.18), transparent 55%),
+                  linear-gradient(180deg, rgba(20,30,50,.1), rgba(0,0,0,.35));
+      border-radius: 40% 40% 8% 8%;
+      box-shadow: 0 0 0 2px rgba(255,255,255,.08);
+      display:flex; align-items:flex-end; justify-content:center;
+      color: #cfe3ff; font-size: 12px; padding-bottom: 10px; letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .frame .safe {
+      position: absolute; inset: 8% 10% 12% 10%;
+      border: 1px dashed rgba(94,234,212,.45); border-radius: 8px; pointer-events: none;
+    }
+    .frame .li-ui {
+      position: absolute; right: 8px; top: 18%; display:flex; flex-direction:column; gap: 10px;
+      color: #fff; font-size: 11px; text-align:center; opacity: .85;
+    }
+    .copybox {
+      background: #0b1220; border: 1px solid var(--line); border-radius: 12px;
+      padding: 14px; white-space: pre-wrap; font-size: 14px; color: #dbe7ff;
+    }
+    .progress {
+      height: 8px; background: #0b1220; border-radius: 99px; overflow: hidden; border: 1px solid var(--line);
+    }
+    .progress > span { display:block; height: 100%; background: linear-gradient(90deg, var(--blue), var(--cyan)); width: 0%; }
+    footer { color: var(--muted); font-size: 13px; padding: 40px 0 20px; }
+
+    /* Prompter overlay */
+    #prompter {
+      display: none; position: fixed; inset: 0; z-index: 80; background: #000;
+      color: #fff; flex-direction: column;
+    }
+    #prompter.open { display: flex; }
+    #prompter.mirror .scroll { transform: scaleX(-1); }
+    #prompter .bar {
+      flex: 0 0 auto; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      padding: 10px 12px; background: #111; border-bottom: 1px solid #222;
+      font-size: 13px;
+    }
+    #prompter .bar button, #prompter .bar label {
+      background: #1c1c1c; color: #fff; border: 1px solid #333; border-radius: 8px;
+      padding: 8px 10px; cursor: pointer; font-weight: 700;
+    }
+    #prompter .bar input[type=range] { width: 110px; }
+    #prompter .scroll {
+      flex: 1; overflow: hidden; position: relative;
+    }
+    #prompter .inner {
+      padding: 18vh 8vw 70vh; max-width: 1100px; margin: 0 auto;
+      font-weight: 700; letter-spacing: -.02em;
+    }
+    #prompter .block { margin: 0 0 1.15em; }
+    #prompter .label {
+      display:block; font-size: .38em; letter-spacing: .16em; text-transform: uppercase;
+      color: #5eead4; margin-bottom: .35em; font-weight: 800;
+    }
+    #prompter .cue { color: #fbbf24; font-size: .42em; font-weight: 600; margin-top: .4em; }
+    #prompter .hairline {
+      position: absolute; left: 0; right: 0; top: 38%; height: 3px;
+      background: linear-gradient(90deg, transparent, #0a66c2, transparent); pointer-events: none;
+    }
+    #prompter .clock {
+      margin-left: auto; font-family: var(--mono); color: #5eead4;
+    }
+    @media (max-width: 720px) {
+      .beat { grid-template-columns: 1fr; }
+      .frame { aspect-ratio: 3 / 4; }
+    }
+    @media print {
+      nav.top, .hero-actions, #prompter, footer { display: none !important; }
+      body { background: #fff; color: #111; }
+      .card { break-inside: avoid; box-shadow: none; border-color: #ccc; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top">
+    <div class="inner">
+      <a href="#plan">Prepro</a>
+      <a href="#script">Script</a>
+      <a href="#sanity">Sanity</a>
+      <a href="#greenscreen">Green screen</a>
+      <a href="#background">LinkedIn BG</a>
+      <a href="#checklist">Shoot · Edit · Upload</a>
+      <a href="#post">Post copy</a>
+      <a href="#" id="navPrompter">Prompter</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <header class="hero">
+      <div class="kicker">
+        Delivery Pilot · Skool
+        <span class="pill">Talking head</span>
+        <span class="pill">~60 seconds</span>
+        <span class="pill">147 spoken words</span>
+        <span class="pill">Green screen → LinkedIn navy plate</span>
+      </div>
+      <h1>Prompting is not search.<br />It is Role, Context, Constraints, Task.</h1>
+      <p class="lede">
+        One locked-off 60-second LinkedIn native video. You shoot against green.
+        We key you onto a dark navy studio plate. This page is the preproduction plan,
+        the teleprompter, the sanity check, and the practical shoot–edit–upload list.
+      </p>
+      <div class="hero-actions">
+        <button class="btn" id="openPrompter">Open Prompter</button>
+        <a class="btn linkedin" href="#checklist">Production checklist</a>
+        <a class="btn secondary" href="https://www.skool.com/delivery-pilot-8938/" target="_blank" rel="noopener">Skool link</a>
+      </div>
+    </header>
+
+    <section id="plan">
+      <h2>Preproduction plan</h2>
+      <p class="sub">One setup, one lens, three full takes. No B-roll day. Graphics are added in the edit.</p>
+      <div class="grid two">
+        <article class="card">
+          <h3>1. Outcome</h3>
+          <p>A 60-second LinkedIn native video that stops the scroll with a claim, teaches a 4-part prompting framework, and sends people to the Delivery Pilot Skool community.</p>
+          <p class="stat">Primary export: 1080×1350 (4:5) · Safety export: 1080×1080 (1:1)</p>
+        </article>
+        <article class="card">
+          <h3>2. Audience &amp; platform</h3>
+          <p>LinkedIn feed, mobile-first, sound off. Career-minded operators who already dabble in ChatGPT and still get mid answers. They will not click a YouTube link. They will tap a first comment if the hook earned it.</p>
+        </article>
+        <article class="card">
+          <h3>3. Single shot</h3>
+          <ul>
+            <li>Medium close-up, eyes on the lens, chest-up.</li>
+            <li>Camera locked on sticks. No handheld. No zoom.</li>
+            <li>iPad teleprompter 5–15 cm under the lens.</li>
+            <li>Green screen fills the frame with 30–50 cm of spill margin around you.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>4. On-screen graphics (edit only)</h3>
+          <ul>
+            <li>0:00 burned-in hook caption.</li>
+            <li>0:25–0:42 four lower-thirds, one beat each: ROLE / CONTEXT / CONSTRAINTS / TASK.</li>
+            <li>0:50 end card: Delivery Pilot · skool.com/delivery-pilot-8938</li>
+            <li>Captions the whole way. 80%+ of LinkedIn video is watched muted.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>5. Kit</h3>
+          <ul>
+            <li>Phone or camera, 4K 30fps, 24–35mm equivalent, f/2.8–4 so the key stays sharp.</li>
+            <li>Key + fill + hair light. Hair light is mandatory with a beard (despill).</li>
+            <li>Lav or shotgun 20–30 cm off-axis. Record 48 kHz.</li>
+            <li>This page on iPad as the prompter. Phone as a backup slate/timer.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>6. Wardrobe &amp; talent</h3>
+          <ul>
+            <li>No green, no lime, no fine stripes, no shiny logos.</li>
+            <li>Navy, charcoal, white, or rust. LinkedIn reads “operator,” not “YouTuber.”</li>
+            <li>Matte skin, beard trimmed, no dangling earrings that the key will chew.</li>
+            <li>Stand, don’t sit — energy matches the script.</li>
+        </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="script">
+      <h2>Spoken script for the prompter</h2>
+      <p class="sub">Original copy, flattened for speech. Pause after each of the four framework words so the lower-third can land.</p>
+
+      <div class="beat">
+        <div>
+          <div class="tag">Hook</div>
+          <div class="tc">0:00–0:10</div>
+          <div class="stat">35 words</div>
+        </div>
+        <p class="spoken">The rapid rise of AI isn’t replacing skills — it’s raising the expectation of what skill actually looks like. If you want to unlock next-generation opportunities, you have to level up how you work alongside AI.</p>
+      </div>
+      <div class="beat">
+        <div>
+          <div class="tag">The shift</div>
+          <div class="tc">0:10–0:25</div>
+          <div class="stat">40 words</div>
+        </div>
+        <p class="spoken">Most people treat AI like a search engine: they type a quick question, get a mid-tier answer, and give up. But top performers know that real prompting is an iterative process of constantly rewriting and refining until you hit precision.</p>
+      </div>
+      <div class="beat">
+        <div>
+          <div class="tag">Framework</div>
+          <div class="tc">0:25–0:42</div>
+          <div class="stat">38 words + 4 beats</div>
+        </div>
+        <div class="spoken">
+          <p>In our course, we break down the core framework you need every time.</p>
+          <p><strong>Role.</strong> Who is the AI acting as?</p>
+          <p><strong>Context.</strong> What’s the background story?</p>
+          <p><strong>Constraints.</strong> What are the strict boundaries?</p>
+          <p><strong>Task.</strong> What exact output do you need?</p>
+        </div>
+      </div>
+      <div class="beat">
+        <div>
+          <div class="tag">Call to action</div>
+          <div class="tc">0:42–1:00</div>
+          <div class="stat">34 words</div>
+        </div>
+        <p class="spoken">Master this loop to get AI Certified and position yourself for the future. Join our Skool community today to access the full course and start building next-generation career opportunities. Link is in the comments!</p>
+      </div>
+    </section>
+
+    <section id="sanity">
+      <h2>Sanity check</h2>
+      <p class="sub">The script is shootable at ~60 seconds. Three copy issues to decide before you record, not after.</p>
+      <div class="card" style="overflow:auto">
+        <table>
+          <thead>
+            <tr><th>Check</th><th>Result</th><th>What to do on set</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Duration vs word count</td>
+              <td class="pass">PASS · 147 words</td>
+              <td>At 145–155 wpm this lands at 57–61s. Do not race the hook.</td>
+            </tr>
+            <tr>
+              <td>Hook density 0:00–0:10</td>
+              <td class="warn">TIGHT · 35 words / 10s</td>
+              <td>That is ~210 wpm if you force the clock. Speak it in 12s, or drop “next-generation” once. Do not clip the first sentence — that is the feed hook.</td>
+            </tr>
+            <tr>
+              <td>“Master this loop”</td>
+              <td class="warn">AMBIGUOUS</td>
+              <td>The last thing you said was a 4-box framework, not a loop. The loop lived in the Shift beat. Either say “Master this framework” or add “Then you iterate.” Use the patched take in the prompter if you want it locked.</td>
+            </tr>
+            <tr>
+              <td>“AI Certified”</td>
+              <td class="warn">UNDEFINED</td>
+              <td>LinkedIn viewers will ask “which cert?” On-screen end card: <strong>Delivery Pilot · AI Certified</strong>. Spoken option: “Get AI Certified with Delivery Pilot.”</td>
+            </tr>
+            <tr>
+              <td>“Our course / our Skool”</td>
+              <td class="warn">UNNAMED</td>
+              <td>Name it once. Delivery Pilot is the community. First comment carries https://www.skool.com/delivery-pilot-8938/</td>
+            </tr>
+            <tr>
+              <td>“Link is in the comments”</td>
+              <td class="pass">OK FOR LINKEDIN</td>
+              <td>Native video has no in-video hyperlink. Put the Skool URL in the post body and again as the first comment within 30 seconds of publish. Say “first comment,” not “comments,” if you use the patched take.</td>
+            </tr>
+            <tr>
+              <td>Four-item list</td>
+              <td class="pass">WORKS IF YOU PAUSE</td>
+              <td>Count them on camera (1–2–3–4) and hold 0.4s after each word so ROLE / CONTEXT / CONSTRAINTS / TASK lower-thirds can land. Without the pause the list is noise.</td>
+            </tr>
+            <tr>
+              <td>Tone vs LinkedIn</td>
+              <td class="pass">PASS</td>
+              <td>Energetic and direct is correct. Do not smile-through the hook; land the claim, then open up on the CTA.</td>
+            </tr>
+            <tr>
+              <td>Green screen + LinkedIn codec</td>
+              <td class="warn">EDGE RISK</td>
+              <td>LinkedIn recompresses hard. A dirty key turns into a green halo. Hair light + 1.5–2 m off the screen + despill in Resolve is not optional.</td>
+            </tr>
+            <tr>
+              <td>Muted playback</td>
+              <td class="fail">MUST FIX IN EDIT</td>
+              <td>If captions are missing, most of the audience never hears the framework. Burn in large captions. Hook line on-screen in the first 2 seconds.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid two" style="margin-top:14px">
+        <article class="card">
+          <h3>Patched spoken CTA (optional)</h3>
+          <p class="spoken">Master this framework, then iterate until you hit precision. Get AI Certified with Delivery Pilot. Join the Skool community today for the full course. The link is in the first comment.</p>
+        </article>
+        <article class="card">
+          <h3>Patched spoken hook (optional)</h3>
+          <p class="spoken">The rapid rise of AI isn’t replacing skills. It’s raising the bar for what skill actually looks like. If you want next-generation opportunities, level up how you work alongside AI.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="greenscreen">
+      <h2>Green screen in the shot</h2>
+      <p class="sub">The green is a production tool, not the LinkedIn look. Viewers should never see chroma. They should see you on a dark navy studio wall.</p>
+      <div class="gs-swatch">CHROMA · #00B140 · EVEN · WRINKLE-FREE</div>
+      <div class="grid two" style="margin-top:14px">
+        <article class="card">
+          <h3>Light the screen separately from you</h3>
+          <ol>
+            <li>Stretch the screen. Wrinkles become dark blobs that will not key.</li>
+            <li>Two LED panels on the screen only, even green, no hot spots. Meter it — it should look boring.</li>
+            <li>Stand 1.5–2 metres off the screen. Closer = spill in the beard and ears.</li>
+            <li>Key light 45° off-axis. Fill opposite, one stop down.</li>
+            <li>Hair / rim light from behind-above. This is what saves the beard on LinkedIn compression.</li>
+            <li>No green wardrobe, no reflective watch face pointed at the screen.</li>
+          </ol>
+        </article>
+        <article class="card">
+          <h3>What we check before “action”</h3>
+          <ul>
+            <li>Green fills the entire 4:5 crop, including above the head and past both shoulders.</li>
+            <li>No floor spill in the 4:5 crop — or we crop it out in the edit.</li>
+            <li>Prompter brightness low enough that it does not bounce green into the eyes.</li>
+            <li>A 5-second clap + “take 1” slate at the head of every take.</li>
+            <li>One 10-second room-tone hold after the last take.</li>
+            <li>Do not change position between takes. The key track depends on it.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="background">
+      <h2>LinkedIn background (the plate you key onto)</h2>
+      <p class="sub">
+        LinkedIn is a workplace feed. The background has to read as a dark executive studio, not a fake city, not a gamer wall, not a stock office with a plant. Navy + a thin LinkedIn-blue floor wash. Empty centre so your face is the only subject.
+      </p>
+      <div class="grid two">
+        <article class="card">
+          <h3>Why this plate</h3>
+          <ul>
+            <li><strong>Colour:</strong> charcoal-navy, close to LinkedIn’s own dark UI. The blue LED is an accent, not a neon club.</li>
+            <li><strong>Texture:</strong> large panels, no busy pattern. Compression will wreck fine detail.</li>
+            <li><strong>Depth:</strong> a little floor so you are not a floating head. Keep the LED below the 4:5 safe crop if it fights the captions.</li>
+            <li><strong>No logos on the plate.</strong> Brand lives in the lower-third and the end card, where we control the type.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Framing on LinkedIn</h3>
+          <ul>
+            <li><strong>Hero export 4:5 (1080×1350).</strong> Fills the mobile feed without going full-screen immersive, so the post text stays visible.</li>
+            <li><strong>Safety 1:1 (1080×1080)</strong> if you also post from desktop.</li>
+            <li>Keep eyes in the upper third. Leave 8–10% padding on the right — LinkedIn’s reaction column sits there on 9:16. 4:5 is safer.</li>
+            <li>Do not use 16:9 as the LinkedIn master. Landscape shrinks in the phone feed. Keep 16:9 only as a YouTube/Skool extra.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="grid" style="grid-template-columns: 1.1fr 1fr 1fr; gap:14px; margin-top:14px">
+        <figure class="card" style="margin:0">
+          <div class="frame">
+            <img src="assets/bg-linkedin-portrait.jpg" alt="Portrait LinkedIn navy studio plate" />
+            <div class="safe"></div>
+            <div class="person">talent · MCU</div>
+            <div class="li-ui">♡<br/>💬<br/>↻<br/>➤</div>
+          </div>
+          <h3 style="margin-top:10px">4:5 LinkedIn feed mock</h3>
+          <p>Dashed box = caption + face safe area. Right icons show why we do not park graphics on the right edge.</p>
+        </figure>
+        <figure class="card" style="margin:0">
+          <img class="plate" src="assets/bg-linkedin-portrait.jpg" alt="Downloadable portrait plate" />
+          <h3 style="margin-top:10px">Portrait plate · download</h3>
+          <p>Use this as the Resolve background still. Scale to 1080×1350. <a href="assets/bg-linkedin-portrait.jpg" download>bg-linkedin-portrait.jpg</a></p>
+        </figure>
+        <figure class="card" style="margin:0">
+          <img class="plate" src="assets/bg-linkedin-square.jpg" alt="Square LinkedIn plate" />
+          <h3 style="margin-top:10px">Square plate · 1:1</h3>
+          <p>Desktop-safe crop. <a href="assets/bg-linkedin-square.jpg" download>bg-linkedin-square.jpg</a> · 16:9 extra: <a href="assets/bg-linkedin-16x9.jpg" download>bg-linkedin-16x9.jpg</a></p>
+        </figure>
+      </div>
+    </section>
+
+    <section id="checklist">
+      <h2>Production checklist — shoot, edit, upload</h2>
+      <p class="sub">Practical, in order. Checks save in this browser. Print this section if you want a paper copy on the desk.</p>
+      <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+      <p class="stat" id="barLabel">0 / 0</p>
+
+      <div class="grid two">
+        <article class="card" data-pack="pre">
+          <h3>A. Day-before</h3>
+          <div class="check"><input type="checkbox" id="c1"><label for="c1">Script locked. Original or patched — pick one. Do not rewrite on set.<small>Prompter on this page. iPad charged, brightness 40–60%.</small></label></div>
+          <div class="check"><input type="checkbox" id="c2"><label for="c2">Green screen steamed / stretched. Spare clamps.<small>If it wrinkles, you will spend the night in the qualifier.</small></label></div>
+          <div class="check"><input type="checkbox" id="c3"><label for="c3">Wardrobe pulled: no green, no stripes. Backup shirt.<small>Navy or charcoal. Matte fabric.</small></label></div>
+          <div class="check"><input type="checkbox" id="c4"><label for="c4">Skool URL confirmed live.<small>https://www.skool.com/delivery-pilot-8938/</small></label></div>
+          <div class="check"><input type="checkbox" id="c5"><label for="c5">Lower-third words typed: ROLE · CONTEXT · CONSTRAINTS · TASK.<small>Plus end-card line: Delivery Pilot · AI Certified</small></label></div>
+        </article>
+
+        <article class="card" data-pack="set">
+          <h3>B. Set — 20 minutes</h3>
+          <div class="check"><input type="checkbox" id="c6"><label for="c6">Camera on sticks, lens at eye line, 4K 30fps, 1/60 shutter.<small>Frame a 4:5 crop in the monitor. Headroom for captions.</small></label></div>
+          <div class="check"><input type="checkbox" id="c7"><label for="c7">Screen lights even. Talent 1.5–2 m forward. Hair light on.<small>Look at the beard in the monitor. If it is green, step forward.</small></label></div>
+          <div class="check"><input type="checkbox" id="c8"><label for="c8">Audio check: lav + camera mic. Peak around −12 dB.<small>Say the four framework words once as a level.</small></label></div>
+          <div class="check"><input type="checkbox" id="c9"><label for="c9">Prompter open, mirrored if needed, speed ~1.0, font large.<small>Spacebar play. Read one silent rehearsal.</small></label></div>
+          <div class="check"><input type="checkbox" id="c10"><label for="c10">Silence the room. Airplane mode. Fridge off if it hums.</label></div>
+        </article>
+
+        <article class="card" data-pack="shoot">
+          <h3>C. Shoot — 15 minutes</h3>
+          <div class="check"><input type="checkbox" id="c11"><label for="c11">Slate: clap, “Prompt framework, take 1.” Then wait 1 second.</label></div>
+          <div class="check"><input type="checkbox" id="c12"><label for="c12">Take 1 — safety. Full 60s. Do not stop for a stumble unless it is a collapse.</label></div>
+          <div class="check"><input type="checkbox" id="c13"><label for="c13">Take 2 — energy. Count 1-2-3-4 on the framework. Pause after each word.</label></div>
+          <div class="check"><input type="checkbox" id="c14"><label for="c14">Take 3 — CTA eyes. Hold 1 second of stillness on the last line for the end card.</label></div>
+          <div class="check"><input type="checkbox" id="c15"><label for="c15">Pick-ups only if a whole beat died. Do not Franken-edit four fragments unless you must.</label></div>
+          <div class="check"><input type="checkbox" id="c16"><label for="c16">10 seconds of room tone. 5 seconds of empty green plate for the key sample.</label></div>
+        </article>
+
+        <article class="card" data-pack="edit">
+          <h3>D. Edit — DaVinci (45–70 min)</h3>
+          <div class="check"><input type="checkbox" id="c17"><label for="c17">Select the take. Prefer take 2 or 3. One continuous performance.</label></div>
+          <div class="check"><input type="checkbox" id="c18"><label for="c18">Chroma key: Qualifier on green → matte finesse → despill → edge soften 0.5–1 px.<small>If the halo is still there, the hair light was weak — do not “fix it in the blur.” Recut the edge, or reshoot.</small></label></div>
+          <div class="check"><input type="checkbox" id="c19"><label for="c19">Drop in <code>assets/bg-linkedin-portrait.jpg</code>. Scale to 1080×1350. Sit talent in the centre panel.</label></div>
+          <div class="check"><input type="checkbox" id="c20"><label for="c20">Burned-in captions, 4–6 words per line, high contrast, inside the dashed safe box.</label></div>
+          <div class="check"><input type="checkbox" id="c21"><label for="c21">Lower-thirds at 0:25, 0:29, 0:33, 0:37: ROLE / CONTEXT / CONSTRAINTS / TASK.</label></div>
+          <div class="check"><input type="checkbox" id="c22"><label for="c22">End card last 4 seconds: Delivery Pilot · AI Certified · skool.com/delivery-pilot-8938</label></div>
+          <div class="check"><input type="checkbox" id="c23"><label for="c23">Hook text on frame 0–2s. This is the thumbnail if you do not upload a custom cover.</label></div>
+          <div class="check"><input type="checkbox" id="c24"><label for="c24">Export A: H.264, 1080×1350, 30fps, ~12–16 Mbps, AAC 192k. File under 200 MB.<small>Export B: 1080×1080. Export C (optional): 1920×1080 for Skool/YouTube.</small></label></div>
+        </article>
+
+        <article class="card" data-pack="upload">
+          <h3>E. LinkedIn upload</h3>
+          <div class="check"><input type="checkbox" id="c25"><label for="c25">Upload native from desktop (not a YouTube link). Native autoplay + watch-time analytics.</label></div>
+          <div class="check"><input type="checkbox" id="c26"><label for="c26">Custom thumbnail: first-frame still with the hook line readable at phone size.</label></div>
+          <div class="check"><input type="checkbox" id="c27"><label for="c27">Paste the post copy from the next section. Do not paste the full transcript as the caption.</label></div>
+          <div class="check"><input type="checkbox" id="c28"><label for="c28">Publish, then immediately first-comment the Skool URL. Pin if you can.</label></div>
+          <div class="check"><input type="checkbox" id="c29"><label for="c29">Fix auto-captions in LinkedIn if you also attach an SRT. Names: Skool, Delivery Pilot.</label></div>
+          <div class="check"><input type="checkbox" id="c30"><label for="c30">After 15 minutes: reply to the first two comments. Do not ghost the post.</label></div>
+        </article>
+
+        <article class="card">
+          <h3>Kill criteria — do not upload if</h3>
+          <ul>
+            <li>Green halo on hair or shoulders (LinkedIn will make it worse).</li>
+            <li>No burned-in captions.</li>
+            <li>Eyes hunting the prompter instead of the lens.</li>
+            <li>CTA names neither Delivery Pilot nor Skool.</li>
+            <li>Audio peaks or a fridge hum under the framework list.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="post">
+      <h2>LinkedIn post + first comment</h2>
+      <p class="sub">The video is the hook. The post adds the frame. The first comment is the only real link.</p>
+      <div class="grid two">
+        <article class="card">
+          <h3>Post body</h3>
+          <pre class="copybox" id="postBody">AI is not replacing skill.
+
+It is raising the bar for what skill looks like.
+
+Most people still use AI like a search box. One question. One mid answer. Then they quit.
+
+The operators who pull ahead treat prompting as a loop:
+
+1. Role
+2. Context
+3. Constraints
+4. Task
+
+Then they rewrite until it is precise.
+
+That is the core of the Delivery Pilot course. 60 seconds. Full breakdown in the community.
+
+Join here: https://www.skool.com/delivery-pilot-8938/</pre>
+          <button class="btn secondary" data-copy="postBody">Copy post</button>
+        </article>
+        <article class="card">
+          <h3>First comment (post this within 30 seconds)</h3>
+          <pre class="copybox" id="firstComment">Full course + community:
+https://www.skool.com/delivery-pilot-8938/
+
+Framework from the video — use it on your next prompt:
+
+ROLE — who is the AI acting as?
+CONTEXT — what is the background?
+CONSTRAINTS — what must it not do?
+TASK — what exact output do you need?
+
+Rewrite once. Then rewrite again.</pre>
+          <button class="btn secondary" data-copy="firstComment">Copy first comment</button>
+          <p style="margin-top:12px">Hashtags, max three: <code>#AI</code> <code>#PromptEngineering</code> <code>#CareerDevelopment</code></p>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      Delivery Pilot · LinkedIn 60s production pack · Prompter keys: Space play/pause · M mirror · +/− speed · [ ] type size · Esc close.
+    </footer>
+  </div>
+
+  <div id="prompter" aria-modal="true" role="dialog">
+    <div class="bar">
+      <button type="button" id="pPlay">Play</button>
+      <button type="button" id="pReset">Reset</button>
+      <label>Speed <input id="pSpeed" type="range" min="0.4" max="2.2" step="0.05" value="1" /></label>
+      <span id="pSpeedVal">1.00×</span>
+      <label>Size <input id="pSize" type="range" min="28" max="92" step="1" value="54" /></label>
+      <button type="button" id="pMirror">Mirror</button>
+      <label style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="pPatch" /> Patched take</label>
+      <span class="clock" id="pClock">0:00</span>
+      <button type="button" id="pClose">Close</button>
+    </div>
+    <div class="scroll" id="pScroll">
+      <div class="hairline"></div>
+      <div class="inner" id="pInner"></div>
+    </div>
+  </div>
+
+  <script>
+    const ORIGINAL = [
+      { label: "0:00  Hook", text: "The rapid rise of AI isn’t replacing skills — it’s raising the expectation of what skill actually looks like. If you want to unlock next-generation opportunities, you have to level up how you work alongside AI.", cue: "Claim first. Do not smile yet." },
+      { label: "0:10  Shift", text: "Most people treat AI like a search engine: they type a quick question, get a mid-tier answer, and give up. But top performers know that real prompting is an iterative process of constantly rewriting and refining until you hit precision.", cue: "" },
+      { label: "0:25  Framework", text: "In our course, we break down the core framework you need every time.", cue: "" },
+      { label: "Role", text: "Role. Who is the AI acting as?", cue: "Hold. Lower-third: ROLE" },
+      { label: "Context", text: "Context. What’s the background story?", cue: "Hold. Lower-third: CONTEXT" },
+      { label: "Constraints", text: "Constraints. What are the strict boundaries?", cue: "Hold. Lower-third: CONSTRAINTS" },
+      { label: "Task", text: "Task. What exact output do you need?", cue: "Hold. Lower-third: TASK" },
+      { label: "0:42  CTA", text: "Master this loop to get AI Certified and position yourself for the future. Join our Skool community today to access the full course and start building next-generation career opportunities. Link is in the comments!", cue: "Eyes to lens. Hold still for the end card." }
+    ];
+    const PATCHED = [
+      { label: "0:00  Hook", text: "The rapid rise of AI isn’t replacing skills. It’s raising the bar for what skill actually looks like. If you want next-generation opportunities, level up how you work alongside AI.", cue: "Claim first. Do not smile yet." },
+      { label: "0:10  Shift", text: "Most people treat AI like a search engine: they type a quick question, get a mid-tier answer, and give up. But top performers know that real prompting is an iterative process of constantly rewriting and refining until you hit precision.", cue: "" },
+      { label: "0:25  Framework", text: "In our course, we break down the core framework you need every time.", cue: "" },
+      { label: "Role", text: "Role. Who is the AI acting as?", cue: "Hold. Lower-third: ROLE" },
+      { label: "Context", text: "Context. What’s the background story?", cue: "Hold. Lower-third: CONTEXT" },
+      { label: "Constraints", text: "Constraints. What are the strict boundaries?", cue: "Hold. Lower-third: CONSTRAINTS" },
+      { label: "Task", text: "Task. What exact output do you need? Then you iterate.", cue: "Hold. Lower-third: TASK" },
+      { label: "0:42  CTA", text: "Master this framework, then iterate until you hit precision. Get AI Certified with Delivery Pilot. Join the Skool community today for the full course. The link is in the first comment.", cue: "Eyes to lens. Hold still for the end card." }
+    ];
+
+    const overlay = document.getElementById("prompter");
+    const inner = document.getElementById("pInner");
+    const scrollEl = document.getElementById("pScroll");
+    const clock = document.getElementById("pClock");
+    const speed = document.getElementById("pSpeed");
+    const speedVal = document.getElementById("pSpeedVal");
+    const size = document.getElementById("pSize");
+    const playBtn = document.getElementById("pPlay");
+    const patch = document.getElementById("pPatch");
+
+    let playing = false;
+    let raf = 0;
+    let last = 0;
+    let elapsed = 0;
+
+    function renderScript() {
+      const src = patch.checked ? PATCHED : ORIGINAL;
+      inner.innerHTML = src.map(b =>
+        `<div class="block"><span class="label">${b.label}</span>${b.text}${b.cue ? `<div class="cue">${b.cue}</div>` : ""}</div>`
+      ).join("");
+      inner.style.fontSize = size.value + "px";
+    }
+    function openPrompter(ev) {
+      if (ev) ev.preventDefault();
+      overlay.classList.add("open");
+      renderScript();
+      scrollEl.scrollTop = 0;
+      elapsed = 0;
+      clock.textContent = "0:00";
+    }
+    function closePrompter() {
+      playing = false;
+      playBtn.textContent = "Play";
+      cancelAnimationFrame(raf);
+      overlay.classList.remove("open");
+    }
+    function fmt(ms) {
+      const s = Math.floor(ms / 1000);
+      return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+    }
+    function tick(ts) {
+      if (!playing) return;
+      if (!last) last = ts;
+      const dt = ts - last;
+      last = ts;
+      elapsed += dt;
+      clock.textContent = fmt(elapsed);
+      const px = (0.42 * parseFloat(speed.value)) * (dt / 16.67) * (parseFloat(size.value) / 54);
+      scrollEl.scrollTop += px;
+      raf = requestAnimationFrame(tick);
+    }
+    function togglePlay() {
+      playing = !playing;
+      playBtn.textContent = playing ? "Pause" : "Play";
+      if (playing) {
+        last = 0;
+        raf = requestAnimationFrame(tick);
+      } else {
+        cancelAnimationFrame(raf);
+      }
+    }
+
+    document.getElementById("openPrompter").addEventListener("click", openPrompter);
+    document.getElementById("navPrompter").addEventListener("click", openPrompter);
+    document.getElementById("pClose").addEventListener("click", closePrompter);
+    document.getElementById("pReset").addEventListener("click", () => {
+      scrollEl.scrollTop = 0; elapsed = 0; clock.textContent = "0:00";
+    });
+    document.getElementById("pMirror").addEventListener("click", () => overlay.classList.toggle("mirror"));
+    playBtn.addEventListener("click", togglePlay);
+    speed.addEventListener("input", () => speedVal.textContent = parseFloat(speed.value).toFixed(2) + "×");
+    size.addEventListener("input", () => inner.style.fontSize = size.value + "px");
+    patch.addEventListener("change", renderScript);
+
+    window.addEventListener("keydown", (e) => {
+      if (!overlay.classList.contains("open")) {
+        if (e.key === "p" && !e.metaKey && !e.ctrlKey) openPrompter(e);
+        return;
+      }
+      if (e.code === "Space") { e.preventDefault(); togglePlay(); }
+      if (e.key === "Escape") closePrompter();
+      if (e.key === "m" || e.key === "M") overlay.classList.toggle("mirror");
+      if (e.key === "+" || e.key === "=") { speed.value = Math.min(2.2, parseFloat(speed.value) + 0.05); speed.dispatchEvent(new Event("input")); }
+      if (e.key === "-" || e.key === "_") { speed.value = Math.max(0.4, parseFloat(speed.value) - 0.05); speed.dispatchEvent(new Event("input")); }
+      if (e.key === "]") { size.value = Math.min(92, parseInt(size.value, 10) + 4); size.dispatchEvent(new Event("input")); }
+      if (e.key === "[") { size.value = Math.max(28, parseInt(size.value, 10) - 4); size.dispatchEvent(new Event("input")); }
+    });
+
+    const boxes = [...document.querySelectorAll("#checklist input[type=checkbox]")];
+    const bar = document.getElementById("bar");
+    const barLabel = document.getElementById("barLabel");
+    function syncChecks() {
+      let on = 0;
+      boxes.forEach(b => {
+        const saved = localStorage.getItem("lp60-" + b.id);
+        if (saved === "1") b.checked = true;
+        if (b.checked) on++;
+      });
+      const pct = boxes.length ? (on / boxes.length) * 100 : 0;
+      bar.style.width = pct + "%";
+      barLabel.textContent = on + " / " + boxes.length + " done";
+    }
+    boxes.forEach(b => b.addEventListener("change", () => {
+      localStorage.setItem("lp60-" + b.id, b.checked ? "1" : "0");
+      syncChecks();
+    }));
+    syncChecks();
+
+    document.querySelectorAll("[data-copy]").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const id = btn.getAttribute("data-copy");
+        await navigator.clipboard.writeText(document.getElementById(id).innerText);
+        btn.textContent = "Copied";
+        setTimeout(() => btn.textContent = "Copy", 1500);
+      });
+    });
+  </script>
+</body>
+</html>
