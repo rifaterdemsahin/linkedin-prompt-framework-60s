@@ -17,6 +17,8 @@
 3. 📋 Paste. Blank lines become chapters (🎣 Hook, 🔄 Shift, 🧱 Framework, 🎭 Role, 📖 Context, 🚧 Constraints, ✅ Task, 📣 CTA).
 4. 🔠 Font large, 🐢 scroll slow, 🎯 lens overlay on.
 
+🔒 The script is the sanity-locked take: Delivery Pilot named, “first comment,” shorter hook, “Master this framework, then iterate.”
+
 🖥️ Web prompter is the backup: Open Prompter on the page. ⏯️ Space = play/pause. 🪞 `M` = mirror. ⚡ `+` / `-` = speed.
 
 🏫 Skool CTA: [Delivery Pilot](https://www.skool.com/delivery-pilot-8938/)
