@@ -10,10 +10,13 @@ Repo: https://github.com/rifaterdemsahin/linkedin-prompt-framework-60s
 
 ## Use on set
 
-1. Open the live page on the iPad under the lens.
-2. Tap **Open Prompter**.
-3. Space = play/pause. `M` = mirror. `+` / `-` = speed.
-4. Shoot three full takes against the green screen.
-5. Key over the navy LinkedIn plates in `assets/`.
+**Elgato Prompter (Camera Hub Text mode)**
+
+1. Open the live page and click **Copy for Elgato Prompter**.
+2. Camera Hub → Prompter → Text → **+** → name it `Prompt framework 60s`.
+3. Paste. Blank lines become chapters (Hook, Shift, Framework, Role, Context, Constraints, Task, CTA).
+4. Font large, scroll slow, lens overlay on.
+
+Web prompter is the backup: Open Prompter on the page. Space = play/pause. `M` = mirror. `+` / `-` = speed.
 
 Skool CTA: [Delivery Pilot](https://www.skool.com/delivery-pilot-8938/)

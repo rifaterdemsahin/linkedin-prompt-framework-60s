@@ -213,6 +213,7 @@
     <div class="inner">
       <a href="#plan">Prepro</a>
       <a href="#script">Script</a>
+      <a href="#elgato">Elgato</a>
       <a href="#sanity">Sanity</a>
       <a href="#greenscreen">Green screen</a>
       <a href="#background">LinkedIn BG</a>
@@ -238,9 +239,10 @@
         the teleprompter, the sanity check, and the practical shoot–edit–upload list.
       </p>
       <div class="hero-actions">
-        <button class="btn" id="openPrompter">Open Prompter</button>
-        <a class="btn linkedin" href="#checklist">Production checklist</a>
-        <a class="btn secondary" href="https://www.skool.com/delivery-pilot-8938/" target="_blank" rel="noopener">Skool link</a>
+        <button class="btn" type="button" id="copyElgato">Copy for Elgato Prompter</button>
+        <button class="btn secondary" type="button" id="openPrompter">Open web prompter</button>
+        <a class="btn linkedin" href="#elgato">Elgato paste steps</a>
+        <a class="btn ghost" href="https://www.skool.com/delivery-pilot-8938/" target="_blank" rel="noopener">Skool link</a>
       </div>
     </header>
 
@@ -281,7 +283,8 @@
             <li>Phone or camera, 4K 30fps, 24–35mm equivalent, f/2.8–4 so the key stays sharp.</li>
             <li>Key + fill + hair light. Hair light is mandatory with a beard (despill).</li>
             <li>Lav or shotgun 20–30 cm off-axis. Record 48 kHz.</li>
-            <li>This page on iPad as the prompter. Phone as a backup slate/timer.</li>
+            <li>Elgato Prompter in Camera Hub Text mode. Copy the script from this page (blank lines = chapters).</li>
+            <li>This page as a backup web prompter. Phone as a slate/timer.</li>
           </ul>
         </article>
         <article class="card">
@@ -298,7 +301,7 @@
 
     <section id="script">
       <h2>Spoken script for the prompter</h2>
-      <p class="sub">Original copy, flattened for speech. Pause after each of the four framework words so the lower-third can land.</p>
+      <p class="sub">Original copy, flattened for speech. Pause after each of the four framework words so the lower-third can land. For the hardware, use <a href="#elgato">Copy for Elgato Prompter</a> — Camera Hub turns each paragraph into a chapter.</p>
 
       <div class="beat">
         <div>
@@ -337,6 +340,35 @@
           <div class="stat">34 words</div>
         </div>
         <p class="spoken">Master this loop to get AI Certified and position yourself for the future. Join our Skool community today to access the full course and start building next-generation career opportunities. Link is in the comments!</p>
+      </div>
+    </section>
+
+    <section id="elgato">
+      <h2>Elgato Prompter</h2>
+      <p class="sub">Camera Hub Text mode. One paste. Eight chapters. Jump with Stream Deck Previous / Next if a take stumbles.</p>
+      <div class="grid two">
+        <article class="card">
+          <h3>Paste into Camera Hub</h3>
+          <ol>
+            <li>Open <strong>Camera Hub</strong> → <strong>Prompter</strong> → <strong>Text</strong>.</li>
+            <li>Click <strong>+</strong> and name it <code>Prompt framework 60s</code>.</li>
+            <li>Click this page’s copy button, then paste into the first chapter. Each blank line becomes a new chapter.</li>
+            <li>Turn on the lens overlay. Font large. Scroll slow. Brightness high enough to read, low enough that it does not bounce into your eyes.</li>
+          </ol>
+          <p class="stat" style="margin-top:12px">8 chapters: Hook · Shift · Framework · Role · Context · Constraints · Task · CTA</p>
+          <div class="hero-actions" style="margin-top:14px">
+            <button class="btn" type="button" data-elgato-copy>Copy for Elgato Prompter</button>
+            <button class="btn secondary" type="button" data-elgato-download>Download .txt</button>
+          </div>
+          <label style="display:flex;align-items:center;gap:8px;margin-top:12px;color:var(--muted);cursor:pointer">
+            <input type="checkbox" id="elgatoPatch" /> Use patched take (named Delivery Pilot + first comment)
+          </label>
+        </article>
+        <article class="card">
+          <h3>What gets copied</h3>
+          <p>Spoken lines only. No stage cues. Blank line between beats so Elgato splits chapters. Preview updates if you tick patched.</p>
+          <pre class="copybox" id="elgatoPreview" style="max-height:280px;overflow:auto;margin-top:10px"></pre>
+        </article>
       </div>
     </section>
 
@@ -516,7 +548,7 @@
           <div class="check"><input type="checkbox" id="c6"><label for="c6">Camera on sticks, lens at eye line, 4K 30fps, 1/60 shutter.<small>Frame a 4:5 crop in the monitor. Headroom for captions.</small></label></div>
           <div class="check"><input type="checkbox" id="c7"><label for="c7">Screen lights even. Talent 1.5–2 m forward. Hair light on.<small>Look at the beard in the monitor. If it is green, step forward.</small></label></div>
           <div class="check"><input type="checkbox" id="c8"><label for="c8">Audio check: lav + camera mic. Peak around −12 dB.<small>Say the four framework words once as a level.</small></label></div>
-          <div class="check"><input type="checkbox" id="c9"><label for="c9">Prompter open, mirrored if needed, speed ~1.0, font large.<small>Spacebar play. Read one silent rehearsal.</small></label></div>
+          <div class="check"><input type="checkbox" id="c9"><label for="c9">Elgato Prompter: script pasted, 8 chapters, overlay on, font large.<small>Copy from this page. Camera Hub → Prompter → Text. Web prompter is the backup.</small></label></div>
           <div class="check"><input type="checkbox" id="c10"><label for="c10">Silence the room. Airplane mode. Fridge off if it hums.</label></div>
         </article>
 
@@ -623,6 +655,7 @@ Rewrite once. Then rewrite again.</pre>
       <span id="pSpeedVal">1.00×</span>
       <label>Size <input id="pSize" type="range" min="28" max="92" step="1" value="54" /></label>
       <button type="button" id="pMirror">Mirror</button>
+      <button type="button" id="pCopyElgato">Copy Elgato</button>
       <label style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="pPatch" /> Patched take</label>
       <span class="clock" id="pClock">0:00</span>
       <button type="button" id="pClose">Close</button>
@@ -664,6 +697,54 @@ Rewrite once. Then rewrite again.</pre>
     const size = document.getElementById("pSize");
     const playBtn = document.getElementById("pPlay");
     const patch = document.getElementById("pPatch");
+    const elgatoPatch = document.getElementById("elgatoPatch");
+    const elgatoPreview = document.getElementById("elgatoPreview");
+
+    function currentBeats() {
+      const patched = !!(patch && patch.checked) || !!(elgatoPatch && elgatoPatch.checked);
+      return patched ? PATCHED : ORIGINAL;
+    }
+    function elgatoScript() {
+      return currentBeats().map(b => b.text.trim()).join("\n\n") + "\n";
+    }
+    function refreshElgatoPreview() {
+      if (elgatoPreview) elgatoPreview.textContent = elgatoScript();
+    }
+    async function copyElgato(btn) {
+      const text = elgatoScript();
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+      }
+      const original = btn ? btn.textContent : "";
+      if (btn) {
+        btn.textContent = "Copied — paste in Camera Hub";
+        setTimeout(() => { btn.textContent = original; }, 2200);
+      }
+    }
+    function downloadElgato() {
+      const blob = new Blob([elgatoScript()], { type: "text/plain;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "prompt-framework-60s-elgato.txt";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+    function setPatched(on) {
+      if (patch) patch.checked = on;
+      if (elgatoPatch) elgatoPatch.checked = on;
+      renderScript();
+      refreshElgatoPreview();
+    }
 
     let playing = false;
     let raf = 0;
@@ -671,7 +752,7 @@ Rewrite once. Then rewrite again.</pre>
     let elapsed = 0;
 
     function renderScript() {
-      const src = patch.checked ? PATCHED : ORIGINAL;
+      const src = currentBeats();
       inner.innerHTML = src.map(b =>
         `<div class="block"><span class="label">${b.label}</span>${b.text}${b.cue ? `<div class="cue">${b.cue}</div>` : ""}</div>`
       ).join("");
@@ -727,7 +808,13 @@ Rewrite once. Then rewrite again.</pre>
     playBtn.addEventListener("click", togglePlay);
     speed.addEventListener("input", () => speedVal.textContent = parseFloat(speed.value).toFixed(2) + "×");
     size.addEventListener("input", () => inner.style.fontSize = size.value + "px");
-    patch.addEventListener("change", renderScript);
+    patch.addEventListener("change", () => setPatched(patch.checked));
+    elgatoPatch.addEventListener("change", () => setPatched(elgatoPatch.checked));
+    document.getElementById("copyElgato").addEventListener("click", (e) => copyElgato(e.currentTarget));
+    document.getElementById("pCopyElgato").addEventListener("click", (e) => copyElgato(e.currentTarget));
+    document.querySelectorAll("[data-elgato-copy]").forEach(btn => btn.addEventListener("click", (e) => copyElgato(e.currentTarget)));
+    document.querySelectorAll("[data-elgato-download]").forEach(btn => btn.addEventListener("click", downloadElgato));
+    refreshElgatoPreview();
 
     window.addEventListener("keydown", (e) => {
       if (!overlay.classList.contains("open")) {
